@@ -1,0 +1,105 @@
+diff -uNr DEBIAN.orig/control DEBIAN/control
+--- DEBIAN.orig/control	2015-08-21 12:31:36.000000000 +0900
++++ DEBIAN/control	2016-01-08 23:04:35.309530267 +0900
+@@ -1,5 +1,5 @@
+ Package: leap
+-Version: 2.3.1+31549
++Version: 2.3.1+31549-0.1
+ Section: Utilities
+ Priority: optional
+ Architecture: amd64
+diff -uNr DEBIAN.orig/md5sums DEBIAN/md5sums
+--- DEBIAN.orig/md5sums	2015-08-21 14:02:03.000000000 +0900
++++ DEBIAN/md5sums	2016-01-08 23:22:53.951901041 +0900
+@@ -1,5 +1,5 @@
+-205d666f82915fad24a668534da91d34  etc/init/leapd.conf
+ e81e15d2a9d50e30cf31139cfd74fa50  lib/udev/rules.d/25-com-leapmotion-leap.rules
++427bd8d5abf6dd9313742ed7427b4de5  lib/systemd/system/leapd.service
+ a2a62da5de265b4f2415d1983edf621e  usr/sbin/leapd
+ 98241f3f7e8f5687035b1c6ad2665a90  usr/bin/platforms/libqxcb.so
+ 43611cd39123285a8a57e667624b06cf  usr/bin/libnssutil3.so
+diff -uNr DEBIAN.orig/postinst DEBIAN/postinst
+--- DEBIAN.orig/postinst	2015-08-21 12:31:50.000000000 +0900
++++ DEBIAN/postinst	2016-01-08 23:12:16.441905152 +0900
+@@ -1,49 +1,9 @@
+ #!/bin/bash -e
+ 
+-echo 'Leap Motion installed under /usr/bin and /usr/sbin'
+-LSB_RELEASE=$(which lsb_release 2> /dev/null) || true
+-if [ -n "${LSB_RELEASE}" ]; then
+-  DISTID=$(lsb_release -id)
+-fi
++echo 'Enable Leap Motion by default'
+ 
+-if [[ -n "${LSB_RELEASE}" && -e /lib/init/upstart-job ]]; then
+-  # Ubuntu
+-  ln -s /lib/init/upstart-job /etc/init.d/leapd
+-  UBUNTU_VERSION=$(lsb_release -r | cut -f 2)
+-  USING_TRAY_WHITELIST=$(echo ${UBUNTU_VERSION} \< 13.04 | bc)
+-  if [ "${USING_TRAY_WHITELIST}" -eq "1" ]; then
+-    echo 'Allow Leap Motion in the system tray with the following command:'
+-    echo '  gsettings set com.canonical.Unity.Panel systray-whitelist "$(gsettings get com.canonical.Unity.Panel systray-whitelist | sed -e "s/]$/, '"'LeapControlPanel'"']/")"'
+-  fi
+-elif [[ "${DISTID}" == *Debian* ]]; then
+-  # Debian: create the init script to install leapd
+-  sed -e 's/daemonexecutablename/leapd/g' \
+-    -e 's/This file should be used to construct scripts to be/Description of the service/' \
+-    -e '/# *placed in \/etc\/init\.d\./d' \
+-    -e 's/Description of the service/Leap Motion daemon/g' \
+-    -e 's/Example initscript/Leap Motion initscript/' \
+-    -e 's/--options args//g' \
+-    -e 's/--start --quiet/--start --background --quiet/g' \
+-    -e 's/Foo Bar <foobar@baz.org>/Leap Motion Support <support@leapmotion.com>/g' \
+-    -e 's/skeleton/leapd/g' \
+-    -e '/Add code here, if necessary, that waits for the process to be ready/a  \ \ \ \ \ \ \ \ cat \/dev\/null \> \$PIDFILE \&\& pidof \$NAME \>\> \$PIDFILE' \
+-    /etc/init.d/skeleton > /etc/init.d/leapd
+-  chmod 755 /etc/init.d/leapd
+-  update-rc.d -f leapd defaults
+-fi
+-
+-if [[ -n "${LSB_RELEASE}" && -e /lib/init/upstart-job || "${DISTID}" == *Debian* ]]; then
+-  service leapd start
+-  echo 'Check Leap Motion daemon with:'
+-  echo '  service leapd status'
+-else
+-  # other distros
+-  echo 'To start the Leap Motion daemon, run:'
+-  echo '  sudo leapd'
+-  echo 'This does not appear to be an Debian or Ubuntu-compatible distro'
+-  echo 'If you would like Leap Motion to run as a service, it is up to you'
+-  echo 'to configure systemd or /etc/init.d appropriately.'
+-fi
++systemctl enable leapd
++systemctl start leapd
+ 
+ echo 'Open the Leap Motion GUI with:'
+ echo '  LeapControlPanel'
+diff -uNr DEBIAN.orig/postrm DEBIAN/postrm
+--- DEBIAN.orig/postrm	2015-08-21 12:31:50.000000000 +0900
++++ DEBIAN/postrm	1970-01-01 09:00:00.000000000 +0900
+@@ -1,15 +0,0 @@
+-#!/bin/bash -e
+-
+-LSB_RELEASE=$(which lsb_release 2> /dev/null) || true
+-if [ -n "${LSB_RELEASE}" ]; then
+-  CODENAME=$(lsb_release -cs)
+-  DISTID=$(lsb_release -id)
+-fi
+-if [ "${CODENAME}" == "debian" -o "${DISTID}" == "Debian" ]; then
+-  if [ ! -e /lib/init/upstart-job ]; then
+-    update-rc.d -f leapd remove
+-  fi
+-fi
+-if [ -n "${LSB_RELEASE}" -a -e /lib/init/upstart-job -o "${CODENAME}" == "debian" -o "${DISTID}" == "Debian" ]; then
+-  rm -vf /etc/init.d/leapd
+-fi
+diff -uNr DEBIAN.orig/prerm DEBIAN/prerm
+--- DEBIAN.orig/prerm	2015-08-21 12:31:50.000000000 +0900
++++ DEBIAN/prerm	2016-01-08 22:58:02.678400608 +0900
+@@ -1,4 +1,5 @@
+ #!/bin/bash -e
+ 
+-service leapd stop || true
++systemctl stop leapd stop || true
+ killall LeapControlPanel Visualizer Recalibrate 2> /dev/null || true
++systemctl disable leapd
