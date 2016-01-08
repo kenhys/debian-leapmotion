@@ -7,6 +7,7 @@ all: systemd
 
 systemd: patch
 	cp -a overwrite/lib $(TEMPDIR)/
+	rm -f $(TEMPDIR)/etc/init/leapd.conf
 
 patch: extract
 	(cd $(TEMPDIR); patch -p0 < ../use-systemd-for-leapmotion.patch)
