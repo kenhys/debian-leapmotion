@@ -15,20 +15,20 @@ Thus, you can easily create fixed version of deb package.
 
 ## How to build modified version of deb package
 
-1. Download software from https://www.leapmotion.com/setup.
-2. Clone this repository into working directory.
+Step 1. Download software from https://www.leapmotion.com/setup.
+Step 2. Clone this repository into working directory.
 
 ```
 git clone https://github.com/kenhys/debian-leapmotion.git
 ```
 
-3. Put `Leap_Motion_Setup_Linux_2.3.1.tgz` to cloned directory.
+Step 3. Put `Leap_Motion_Setup_Linux_2.3.1.tgz` to cloned directory.
 
 ```
 % cp PATH_TO_Leap_Motion_Setup_Linux_2.3.1.tgz debian-leapmotion/
 ```
 
-4. Just type `make`.
+Step 4. Just type `make`.
 
 ```
 % cd debian-leapmotion
@@ -49,7 +49,7 @@ dpkg-deb -b tmp Leap-2.3.1+31549-0.1-x64.deb
 dpkg-deb: building package 'leap' in 'Leap-2.3.1+31549-0.1-x64.deb'.
 ```
 
-5. Just install it!
+Step 5. Just install it!
 
 ```
 % sudo dpkg -i Leap-2.3.1+31549-0.1-x64.deb
