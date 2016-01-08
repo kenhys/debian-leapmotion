@@ -95,11 +95,11 @@ diff -uNr DEBIAN.orig/postrm DEBIAN/postrm
 -fi
 diff -uNr DEBIAN.orig/prerm DEBIAN/prerm
 --- DEBIAN.orig/prerm	2015-08-21 12:31:50.000000000 +0900
-+++ DEBIAN/prerm	2016-01-08 22:58:02.678400608 +0900
++++ DEBIAN/prerm	2016-01-09 00:44:59.922420567 +0900
 @@ -1,4 +1,5 @@
  #!/bin/bash -e
  
 -service leapd stop || true
-+systemctl stop leapd stop || true
++systemctl stop leapd || true
  killall LeapControlPanel Visualizer Recalibrate 2> /dev/null || true
 +systemctl disable leapd
