@@ -13,4 +13,7 @@ patch: extract
 
 extract:
 	rm -fr $(TEMPDIR)
-	dpkg-deb -R Leap-2.3.1+31549-x64.deb $(TEMPDIR)
+	if [ ! -d Leap_Motion_Installer_Packages_release_public_linux ]; then \
+	  tar xf Leap_Motion_Setup_Linux_2.3.1.tgz; \
+	fi
+	dpkg-deb -R Leap_Motion_Installer_Packages_release_public_linux/Leap-2.3.1+31549-x64.deb $(TEMPDIR)
