@@ -6,7 +6,7 @@ on Ubuntu.
 And it seems that it supports Debian and other Debian derivative
 distributions, but that is not true because installed init script which
 is generated from /etc/init.d/skeleton is pretty different and
-lacks functionality for Debian.
+lacks functionality for Debian. (At least, 2.3.1 does not work)
 
 This repository provides set of script and a bit modified version of
 well known patch from https://gist.github.com/jmwilson/8e6c579eac5fa7fa9f0d.
