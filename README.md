@@ -10,6 +10,7 @@ lacks functionality for Debian. (At least, 2.3.1 does not work)
 
 This repository provides set of script and a bit modified version of
 well known patch from https://gist.github.com/jmwilson/8e6c579eac5fa7fa9f0d.
+Thanks, [@jmwilson](https://github.com/jmwilson)
 
 Thus, you can easily create fixed version of deb package.
 
