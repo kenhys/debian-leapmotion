@@ -16,7 +16,7 @@ Thus, you can easily create fixed version of deb package.
 
 ## How to build modified version of deb package
 
-Step 1. Download software from https://www.leapmotion.com/setup.
+Step 1. Download software from https://www.leapmotion.com/setup/desktop.
 
 Step 2. Clone this repository into working directory.
 
