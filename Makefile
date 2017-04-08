@@ -3,8 +3,10 @@ DEB=Leap-2.3.1+31549-0.1-x64.deb
 TEMPDIR=tmp
 
 SDK_DIR=LeapDeveloperKit_2.3.1+31549_linux
+SDK_TGZ=Leap_Motion_SDK_Linux_2.3.1.tgz
 
 SETUP_DIR=Leap_Motion_Installer_Packages_release_public_linux
+SETUP_TGZ=Leap_Motion_Setup_Linux_2.3.1.tgz
 
 all: systemd
 	dpkg-deb -b $(TEMPDIR) $(DEB)
@@ -18,10 +20,10 @@ patch: extract
 
 extract:
 	rm -fr $(TEMPDIR)
-	if [ ! -d $(SETUP_DIR) -a -f Leap_Motion_Setup_Linux_2.3.1.tgz ]; then \
-	  tar xf Leap_Motion_Setup_Linux_2.3.1.tgz; \
+	if [ ! -d $(SETUP_DIR) -a -f $(SETUP_TGZ) ]; then \
+	  tar xf $(SETUP_TGZ); \
 	  dpkg-deb -R $(SETUP_DIR)/Leap-2.3.1+31549-x64.deb $(TEMPDIR); \
-	elif [ ! -d $(SDK_DIR) -a -f Leap_Motion_SDK_Linux_2.3.1.tgz ]; then \
-	  tar xf Leap_Motion_SDK_Linux_2.3.1.tgz; \
+	elif [ ! -d $(SDK_DIR) -a -f $(SDK_TGZ) ]; then \
+	  tar xf $(SDK_TGZ); \
 	  dpkg-deb -R $(SDK_DIR)/Leap-2.3.1+31549-x64.deb $(TEMPDIR); \
 	fi
