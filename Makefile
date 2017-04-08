@@ -14,11 +14,11 @@ patch: extract
 
 extract:
 	rm -fr $(TEMPDIR)
-	if [ ! -d Leap_Motion_Installer_Packages_release_public_linux ]; then \
+	if [ ! -d Leap_Motion_Installer_Packages_release_public_linux -a -f Leap_Motion_Setup_Linux_2.3.1.tgz ]; then \
 	  tar xf Leap_Motion_Setup_Linux_2.3.1.tgz; \
 	  dpkg-deb -R Leap_Motion_Installer_Packages_release_public_linux/Leap-2.3.1+31549-x64.deb $(TEMPDIR); \
 	fi
-	if [ ! -d LeapDeveloperKit_2.3.1+31549_linux ]; then \
+	if [ ! -d LeapDeveloperKit_2.3.1+31549_linux -a -f Leap_Motion_SDK_Linux_2.3.1.tgz ]; then \
 	  tar xf Leap_Motion_SDK_Linux_2.3.1.tgz; \
 	  dpkg-deb -R LeapDeveloperKit_2.3.1+31549_linux/Leap-2.3.1+31549-x64.deb $(TEMPDIR); \
 	fi
