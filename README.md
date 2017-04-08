@@ -14,6 +14,14 @@ Thanks, [@jmwilson](https://github.com/jmwilson)
 
 Thus, you can easily create fixed version of deb package.
 
+> This repository supports v2 SDK only.
+> It means that the following archive are supported.
+>
+> * Leap_Motion_SDK_Linux_2.3.1.tgz
+> * Leap_Motion_Setup_Linux_2.3.1.tgz
+>
+> Note that well-known [hotfix](https://community.leapmotion.com/t/error-in-leapd-malloc/4271/6) is not applied yet.
+
 ## How to build modified version of deb package
 
 Step 1. Download software from https://www.leapmotion.com/setup/desktop.
