@@ -23,8 +23,8 @@ extract:
 	rm -fr $(TEMPDIR)
 	if [ ! -d $(SETUP_DIR) -a -f $(SETUP_TGZ) ]; then \
 	  tar xf $(SETUP_TGZ); \
-	  dpkg-deb -R $(SETUP_DIR)/Leap-2.3.1+31549-x64.deb $(TEMPDIR); \
+	  dpkg-deb -R $(SETUP_DIR)/$(OFFICIAL_DEB) $(TEMPDIR); \
 	elif [ ! -d $(SDK_DIR) -a -f $(SDK_TGZ) ]; then \
 	  tar xf $(SDK_TGZ); \
-	  dpkg-deb -R $(SDK_DIR)/Leap-2.3.1+31549-x64.deb $(TEMPDIR); \
+	  dpkg-deb -R $(SDK_DIR)/$(OFFICIAL_DEB) $(TEMPDIR); \
 	fi
