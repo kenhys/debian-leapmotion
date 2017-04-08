@@ -1,5 +1,6 @@
 
 DEB=Leap-2.3.1+31549-0.1-x64.deb
+OFFICIAL_DEB=Leap-2.3.1+31549-x64.deb
 TEMPDIR=tmp
 
 SDK_DIR=LeapDeveloperKit_2.3.1+31549_linux
