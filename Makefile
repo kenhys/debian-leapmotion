@@ -11,6 +11,7 @@ SETUP_TGZ=Leap_Motion_Setup_Linux_2.3.1.tgz
 
 all: systemd
 	dpkg-deb -b $(TEMPDIR) $(DEB)
+	rm -fr $(TEMPDIR)
 
 systemd: patch
 	cp -a overwrite/lib $(TEMPDIR)/
